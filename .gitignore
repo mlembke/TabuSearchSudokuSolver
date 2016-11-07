@@ -55,3 +55,4 @@ ipch/
 # SQL Server files
 *.mdf
 *.ldf
+doc/tex/report/preliminary_report/wmh_preliminary_report.pdf

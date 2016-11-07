@@ -43,11 +43,17 @@
 		
 		Problem można przedstawić następująco: w jaki sposób wygenerować planszę do Sudoku dającą się jednoznacznie rozwiązać i jak generować planszę o zadanym stopniu trudności.
 		
-		Jeśli chodzi o generowanie jednoznacznie rozwiązywalnych plansz to pierwszym co przychodzi na myśl jest stworzenie bazy ,,dobrych'' plansz, na podstawie których będą generowane następne plansze. Pomysł jest dość prymitywny i jest obciążony dodatkowym problemem jakie przekształcenia wykonywać, aby wciąż utrzymać jednoznaczność rozwiązania.
+		\item Jak zdefiniować sąsiedztwo -- algorytm przeszukiwania tabu wymaga od nas zdefiniowania relacji sąsiedztwa na parach elementów przestrzeni rozwiązań, która będzie obejmować jej całą dziedzinę. W przypadku Sudoku, może to po  prostu być indeks i oznaczający pole (dla planszy 9x9, będzie przyjmował wartości od 0 do 80) oraz liczba a oznaczająca liczbę jaka została wpisana (od 1 do 9).
 		
-		Drugim pomysłem jest wykorzystanie sposobu zaproponowanego w \cite{McGuire2013}. Główną ideą przedstawionego rozwiązania problemu jest wygenerowanie planszy rozwiązanej wykorzystując algorytm z rodziny ,,Las Vegas'', a następnie usunięciu niektórych pól. Algorytm rozwiązuje też zagadnienie trudności planszy -- usuwa się liczę uzupełnionych pól w zależności od stopnia trudności.
+		\item Jak reprezentowac liste tabu --
 		
-		\item 
+		\item Ile pozycji ma mieć lista tabu --
+		
+		\item Określenie pamięci długoterminowej -- przeszukiwanie tabu wykorzystuje pamięć długoterminową do przechowywania najlepszego globalnie rozwiązania, które zostaje zwrócone na końcu algorytmu. Może to być pojedyncze rozwiązanie bądź lista najlepszych rozwiązań.
+		
+		\item Kryterium aspiracji --
+		
+		
 	\end{enumerate}
 	
 	\section{Podsumowanie}
