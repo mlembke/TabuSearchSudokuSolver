@@ -33,7 +33,11 @@
 	\section{Przeszukiwanie tabu}
 	Przeszukiwanie tabu (ang. \textit{Tabu search}, TS) to metaheurystyka wykorzystywania wraz z metodami przeszukiwania przy problemach optymalizacyjnych.
 	
-	Ideą algorytmu jest iteracyjne przeszukiwanie przestrzeni wszystkich możliwych rozwiązań. Przy każdym ruchu korzysta się z tak zwanej listy tabu (ang. \textit{Tabu list}).
+	Ideą algorytmu jest iteracyjne przeszukiwanie przestrzeni możliwych rozwiązań. Przy każdym ruchu korzysta się z tak zwanej listy tabu (ang. \textit{Tabu list}).
+	
+	Mając zadana rozwiązanie \(x\) przeszukiwane jest jego sąsiedztwo w celu w celu uzyskania rozwiązania \(x'\). Każde rozwiązanie jest oceniane według zadanej funkcji oceny (nazywanej także funkcją celu). Problemem takiego przeszukiwania jest możliwość zatrzymania się algorytmu w minimum lokalnym.
+	
+	W celu wykluczenia takich sytuacji wykorzystywana jest właśnie lista tabu, która zawiera ruchy niedozwolone (np. wykonane ostatnio).
 	
 	\section{Problemy do rozwiązania i wstępne rozwiązania}
 	Analizując zadanie zaprojektowania i implementacji algorytmu do rozwiązywania łamigłówki Sudoku wykorzystujący przeszukiwanie tabu można dostrzec pewne podstawowe problemy:
@@ -43,16 +47,13 @@
 		
 		Problem można przedstawić następująco: w jaki sposób wygenerować planszę do Sudoku dającą się jednoznacznie rozwiązać i jak generować planszę o zadanym stopniu trudności.
 		
-		\item Jak zdefiniować sąsiedztwo -- algorytm przeszukiwania tabu wymaga od nas zdefiniowania relacji sąsiedztwa na parach elementów przestrzeni rozwiązań, która będzie obejmować jej całą dziedzinę. W przypadku Sudoku, może to po  prostu być funkcja swap(i, j), która zamienia ze sobą elementy z pozycji i-tej oraz j-tej.
+		\item Jak zdefiniować sąsiedztwo -- algorytm przeszukiwania tabu wymaga od nas zdefiniowania relacji sąsiedztwa na parach elementów przestrzeni rozwiązań, która będzie obejmować jej całą dziedzinę.  W przypadku Sudoku, może to po  prostu być funkcja swap(i, j), która zamienia ze sobą elementy z pozycji i-tej oraz j-tej w danym bloku.
 		
-		\item Jak reprezentowac liste tabu --
-		
-		\item Ile pozycji ma mieć lista tabu --
+		\item Jak reprezentować listę tabu -- listę tabu można reprezentować jako kolejkę FIFO (ang. \textit{First In, First Out}) o zadanym rozmiarze, w której usuwane są najstarsze elementy w przypadku przekroczenia zadanego rozmiaru kolejki.
 		
 		\item Określenie pamięci długoterminowej -- przeszukiwanie tabu wykorzystuje pamięć długoterminową do przechowywania najlepszego globalnie rozwiązania, które zostaje zwrócone na końcu algorytmu. Może to być pojedyncze rozwiązanie bądź lista najlepszych rozwiązań.
 		
-		\item Kryterium aspiracji -- jeśli zostanie spełnione, umożliwia wykonanie ruchu znajdującego się na liście tabu. Może to być np. próg wartości funkcji oceny. Jeśli ruch z listy tabu powoduje, że rozwiązanie jest lepsze od najlepszego o wartość tego progu, to ruch ten będzie akceptowalny.
-		
+		\item Kryterium aspiracji --
 		
 	\end{enumerate}
 	
