@@ -26,7 +26,7 @@
 	
 	\begin{figure}[H]
 		\centering
-		\includegraphics[scale=0.75]{sudoku_example.png}
+		\includegraphics[scale=0.8]{sudoku_example.png}
 		\caption{Przykładowa plansza Sudoku. Pogrubionymi liniami oznaczono bloki o rozmiarze 3 na 3 pola. Źródło: \href{https://upload.wikimedia.org/wikipedia/commons/2/2d/Sudoku_przyklad.png}{wikimedia.org}}
 	\end{figure}
 	
@@ -39,7 +39,7 @@
 	
 	W celu wykluczenia takich sytuacji wykorzystywana jest właśnie lista tabu, która zawiera ruchy niedozwolone (np. wykonane ostatnio).
 	
-	\section{Problemy do rozwiązania i wstępne rozwiązania}
+	\section{Podstawowe problemy i ich wstępne rozwiązania}
 	Analizując zadanie zaprojektowania i implementacji algorytmu do rozwiązywania łamigłówki Sudoku wykorzystujący przeszukiwanie tabu można dostrzec pewne podstawowe problemy:
 	
 	\begin{enumerate}
@@ -47,18 +47,19 @@
 		
 		Problem można przedstawić następująco: w jaki sposób wygenerować planszę do Sudoku dającą się jednoznacznie rozwiązać i jak generować planszę o zadanym stopniu trudności.
 		
+		Jeśli chodzi o generowanie jednoznacznie rozwiązywalnych plansz to pierwszym co przychodzi na myśl jest stworzenie bazy ,,dobrych'' plansz, na podstawie których będą generowane następne plansze. Pomysł jest dość prymitywny i jest obciążony dodatkowym problemem jakie przekształcenia wykonywać, aby wciąż utrzymać jednoznaczność rozwiązania.
+		
+		Drugim pomysłem jest wykorzystanie sposobu zaproponowanego w \cite{McGuire2013}. Główną ideą przedstawionego rozwiązania problemu jest wygenerowanie planszy rozwiązanej wykorzystując algorytm z rodziny ,,Las Vegas'', a następnie usunięciu niektórych pól. Algorytm rozwiązuje też zagadnienie trudności planszy -- usuwa się liczę uzupełnionych pól w zależności od stopnia trudności.
+				
 		\item Jak zdefiniować sąsiedztwo -- algorytm przeszukiwania tabu wymaga od nas zdefiniowania relacji sąsiedztwa na parach elementów przestrzeni rozwiązań, która będzie obejmować jej całą dziedzinę.  W przypadku Sudoku, może to po  prostu być funkcja swap(i, j), która zamienia ze sobą elementy z pozycji i-tej oraz j-tej w danym bloku.
 		
-		\item Jak reprezentować listę tabu -- listę tabu można reprezentować jako kolejkę FIFO (ang. \textit{First In, First Out}) o zadanym rozmiarze, w której usuwane są najstarsze elementy w przypadku przekroczenia zadanego rozmiaru kolejki.
+		\item Jak reprezentować listę tabu -- listę tabu można reprezentować jako kolejkę FIFO (ang. \textit{First In, First Out}) o zadanym rozmiarze, w której w przypadku przekroczenia zadanego rozmiaru kolejki usuwane są najstarsze elementy.
 		
 		\item Określenie pamięci długoterminowej -- przeszukiwanie tabu wykorzystuje pamięć długoterminową do przechowywania najlepszego globalnie rozwiązania, które zostaje zwrócone na końcu algorytmu. Może to być pojedyncze rozwiązanie bądź lista najlepszych rozwiązań.
 		
 		\item Kryterium aspiracji -- jeśli zostanie spełnione, umożliwia wykonanie ruchu znajdującego się na liście tabu. Może to być np. próg wartości funkcji oceny. Jeśli ruch z listy tabu powoduje, że rozwiązanie jest lepsze od najlepszego o wartość tego progu, to ruch ten będzie akceptowalny.
 		
 	\end{enumerate}
-	
-	\section{Podsumowanie}
-	
 	
 	\printbibliography
 \end{document}
