@@ -35,12 +35,12 @@
 	
 	Ideą algorytmu jest iteracyjne przeszukiwanie przestrzeni możliwych rozwiązań. Przy każdym ruchu korzysta się z tak zwanej listy tabu (ang. \textit{Tabu list}).
 	
-	Mając zadana rozwiązanie \(x\) przeszukiwane jest jego sąsiedztwo w celu w celu uzyskania rozwiązania \(x'\). Każde rozwiązanie jest oceniane według zadanej funkcji oceny (nazywanej także funkcją celu). Problemem takiego przeszukiwania jest możliwość zatrzymania się algorytmu w minimum lokalnym.
+	Mając zadane rozwiązanie \(x\) przeszukiwane jest jego sąsiedztwo w celu w celu uzyskania rozwiązania \(x'\). Każde rozwiązanie jest oceniane według zadanej funkcji oceny (nazywanej także funkcją celu). Problemem takiego przeszukiwania jest możliwość zatrzymania się algorytmu w minimum lokalnym.
 	
 	W celu wykluczenia takich sytuacji wykorzystywana jest właśnie lista tabu, która zawiera ruchy niedozwolone (np. wykonane ostatnio).
 	
 	\section{Podstawowe problemy i ich wstępne rozwiązania}
-	Analizując zadanie zaprojektowania i implementacji algorytmu do rozwiązywania łamigłówki Sudoku wykorzystujący przeszukiwanie tabu można dostrzec pewne podstawowe problemy:
+	Analizując zadanie zaprojektowania i implementacji algorytmu do rozwiązywania łamigłówki Sudoku wykorzystującego przeszukiwanie tabu można dostrzec pewne podstawowe problemy:
 	
 	\begin{enumerate}
 		\item Jak generować plansze do testowania -- liczba możliwych (rozwiązanych) plansz to ponad \(6,67 \cdot 10^{21}\)\cite{OEIS}. Ponadto liczba plansz dających się jednoznacznie rozwiązać wynosi ponad 49 tys. dla 17 uzupełnionych pól.
