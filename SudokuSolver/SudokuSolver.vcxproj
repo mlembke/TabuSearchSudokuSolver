@@ -120,11 +120,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Node.h" />
+    <ClInclude Include="PossibleMove.h" />
     <ClInclude Include="Sudoku.h" />
+    <ClInclude Include="TabuSearch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="PossibleMove.cpp" />
     <ClCompile Include="Sudoku.cpp" />
+    <ClCompile Include="TabuSearch.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

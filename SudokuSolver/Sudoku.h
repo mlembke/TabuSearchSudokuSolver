@@ -11,5 +11,7 @@ public:
 
 	bool swap(unsigned int blockNo, unsigned int x, unsigned int y);
 
+	void fillHolesRandomly();	
+
 };
 

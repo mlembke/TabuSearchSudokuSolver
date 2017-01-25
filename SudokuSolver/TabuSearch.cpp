@@ -13,5 +13,9 @@ TabuSearch::~TabuSearch()
 
 Sudoku TabuSearch::sudokuSolver(Sudoku inputSudoku)
 {
+	Sudoku currentSolution = inputSudoku;
+	currentSolution.fillHolesRandomly();
+
+
 	return Sudoku();
 }
