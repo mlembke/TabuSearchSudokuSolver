@@ -1,0 +1,187 @@
+\documentclass[]{project_report}
+\usepackage{color}
+\usepackage{listings}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{ %
+	backgroundcolor=\color{white},   % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+	basicstyle=\footnotesize,        % the size of the fonts that are used for the code
+	breakatwhitespace=false,         % sets if automatic breaks should only happen at whitespace
+	breaklines=true,                 % sets automatic line breaking
+	captionpos=b,                    % sets the caption-position to bottom
+	commentstyle=\color{mygreen},    % comment style
+	deletekeywords={...},            % if you want to delete keywords from the given language
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	frame=none,	                   % adds a frame around the code
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\color{blue},       % keyword style
+	language=Octave,                 % the language of the code
+	morekeywords={*,...},           % if you want to add more keywords to the set
+	numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny\color{mygray}, % the style that is used for the line-numbers
+	rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\color{mymauve},     % string literal style
+	tabsize=3,	                   % sets default tabsize to 2 spaces
+	title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+\author{%
+	Marcin Lembke\\
+	\texttt{\href{mailto:M.Lembke@stud.elka.pw.edu.pl}%
+		{\nolinkurl{M.Lembke@stud.elka.pw.edu.pl}}}
+	\and
+	Marcin Malesa\\
+	\texttt{\href{mailto:M.Malesa@stud.elka.pw.edu.pl}%
+		{\nolinkurl{M.Malesa@stud.elka.pw.edu.pl}}}
+}
+\supervisor{dr inż. Piotr Bilski}
+\title{Algorytm przeszukiwania z tabu do rozwiązywania układanki Sudoku (PB5)}
+\subtitle{Sprawozdanie cząstkowe}
+\course{Współczesne metody heurystyczne}
+\coursecode{WMH}
+\university{Politechnika Warszawska}
+\faculty{Wydział Elektroniki i Technik Informacyjnych}
+
+\addbibresource{bibliography.bib}
+
+\begin{document}
+	\maketitle
+	
+	\section{Sudoku}
+	Sudoku to gra logiczna, której celem jest uzupełnienie planszy, zazwyczaj o rozmiarze 9 na 9 pól, w taki sposób aby w każdym wierszu, kolumnie oraz wyznaczonym bloku 3 na 3 pola, znalazło się po jednej cyfrze z zakresu 1 do 9.
+	
+	\section{Generowanie plansz}
+	Pierwszym problemem, który wyszczególniliśmy w sprawozdaniu wstępnym jest generowanie plansz Sudoku. Podaliśmy wtedy dwa pomysły na generowanie plansz: pierwszy polegajacy na generowaniu z wykorzystaniem bazy ,,dobrych'' plansz, oraz drugi, bardziej złożony zaprezentowany w artykule [tutaj odnośnik do artykułu].
+	Ostatecznie zdecydowaliśmy się wzorować na metodzie zaprezentowanej w artykule, lecz z pewnymi zmianami:
+	\begin{enumerate}
+		\item Zdecydowaliśmy się przedstawić, na potrzeby generowania plansz, problem Sudoku jako problem spełniania ograniczeń (ang. \textit{constraint satisfaction problem}, CSP). To podejście wydaje się być dobrym modelem układanki Sudoku.
+		\item Zrezygnowaliśmy z założenia o jednoznacznym rozwiązaniu planszy, ponieważ założenie to, mimo że jest czasami pożądane w przypadku układanki wygenerowanej do rozwiązania przez człowieka, nie jest wymagane do zrealizowania celu projektu, czyli zaprojektowania i implementacji algorytmu przeszukiwania z tabu, rozwiązującego układankę Sudoku. Innymi słowy interesuje nas sam fakt, znalezienia jakiegokolwiek rozwiązania przez zaimplementowany algorytm.
+		\item Uprościliśmy metodę oceny trudności planszy do jednego czynnika: liczby nieuzupełnionych pól.
+		\item Uprościliśmy metodę ,,robienia dziur'' w układance do zwykłego losowania wypełnionych pól i ich usuwania.
+	\end{enumerate}
+	\subsection{Sudoku jako CSP}
+	Problem spełnienia ograniczeń (CSP) można przedstawić jako trójkę \((X , D, C)\):
+	\begin{align*}
+		X &= \left\lbrace X_{1}, \ldots, X_{n} \right\rbrace,\\
+		D &= \left\lbrace D_{1}, \ldots, D_{n} \right\rbrace,\\
+		C &= \left\lbrace C_{1}, \ldots, X_{m} \right\rbrace,
+	\end{align*}
+	gdzie: \(X\) jest zbiorem zmiennych, \(D\) jest zbiorem dziedzin tych zmiennych oraz \(C\) jest zbiorem ograniczeń.
+	
+	\begin{equation*}
+		C \land x_{1} \in D(x_{1}) \land \ldots \land x_{n} \in D(x_{n})
+	\end{equation*}
+	Rozwiązanie układanki Sudoku o rozmiarze 9 na 9 można przedstawić jako CSP z następującymi ograniczeniami:
+	\begin{enumerate}
+		\item W każdym wierszu musi znaleźć się dokładnie po jednej cyfrze od 1 do 9.
+		\item W każdej kolumnie musi znaleźć się dokładnie po jednej cyfrze od 1 do 9.
+		\item W każdym kwadracie \(3 \times 3\) musi znaleźć się dokładnie po jednej cyfrze od 1 do 9.            
+	\end{enumerate}
+	Oczywiście w tym wypadku zmiennych jest 81 i dziedzina każdej zmiennej to \(\left\lbrace 1, 2, \ldots, 9 \right\rbrace\).
+	
+	Algorytm generowania układanek Sudoku wygląda następująco:
+	\begin{enumerate}
+		\item Stwórz instancję problemu CSP.
+		\item Dodaj zmienne -- wygeneruj pustą planszę.
+		\item Dodaj ograniczenia.
+		\item Wykorzystaj \textit{solver} CSP do rozwiązania planszy.
+		\item Wylosuj uzupełnione pola do usunięcia.
+	\end{enumerate}
+	
+	Generowanie plansz zostało zaimplementowane w języku Python w wersji 3 z wykorzystaniem biblioteki \textit{python-constraint}\footnote{\url{https://github.com/python-constraint/python-constraint}}, dostarczającej m.in. \textit{solver} CSP.
+	
+	\section{Przeszukiwanie tabu}
+	Po obmyśleniu sposobu na generowanie rozwiązywalnych plansz Sudoku, pora przystąpić do zaprojektowania algorytmu przeszukiwania z tabu. Pierwszym, aczkolwiek trywialnym zadaniem jest ustalenie sposobu reprezentacji plansz. Zdecydowaliśmy się robić to za pomocą zwykłej dwuwymiarowej tablicy.
+	\begin{lstlisting}[language=C++]
+	class Node	// Klasa reprezentujaca pojedyncze pole na planszy
+	{
+	unsigned int value;   // Wartosc pola
+	bool startingNode;   // Czy pole jest polem poczatkowym?
+	
+	(...)
+	};
+	
+	class Sudoku	// Klasa reprezentujaca pojedyncza plansze Sudoku
+	{
+	Node map[9][9];
+	
+	(...)
+	};
+	\end{lstlisting}
+	Kolejnym ważnym zadaniem było zdefiniowanie relacji sąsiedztwa na parach elementów w przestrzeni rozwiązań, która będzię obejmować całą jej dziedzinę. Zdecydowaliśmy się na funkcję swap, która zamienia miejscami cyfry o pozycjach x i y w bloku 3x3 o numerze blockNo.
+	\begin{lstlisting}[language=C++]
+	bool swap(unsigned int blockNo, unsigned int x, unsigned int y)
+	{
+	(...)
+	}
+	\end{lstlisting}
+	
+	Dodatkowo, powinniśmy także zdefiniować strukturę, która będzie reprezentować możliwe do wykonania ruchy.
+	
+	\begin{lstlisting}[language=C++]
+	class PossibleMove
+	{
+	unsigned int blockNo;
+	unsigned int x;
+	unsigned int y;
+	};
+	\end{lstlisting}
+	
+	Po wygenerowaniu planszy uruchamiamy algorytm przeszukiwania z tabu, którego uproszczona wersja jest przedstawiona w poniższym kodzie. Jeszcze niżej jest natomiast opisane co dzieje się w kolejnych krokach algorytmu.
+	\begin{lstlisting}[language=C++]
+	Sudoku tabuSearchSudokuSolver(Sudoku inputSudoku)
+	{
+	Sudoku currentSolution = inputSudoku.fillHolesRandomly();	// 1.
+	Sudoku bestSolution = currentSolution;	// 2.
+	queue<PossibleMove> tabuList;	// 2.
+	while (!stopCondition())		// 3.
+	{
+	Sudoku bestCandidateSolution;
+	PossibleMove bestCandidateMove;
+	vector<pair<PossibleMove, Sudoku>> currentSolutionNeighbourhood = 							
+	currentSolution.getNeighbourhood();	// 4.
+	for (auto candidate : currentSolutionNeighbourhood)
+	{
+	PossibleMove candidateMove = candidate.getKey();
+	Sudoku candidateSolution = candidate.getValue();
+	if ( !tabuListContainsMove(tabuList, candidateMove) 
+	&& (candidateSolution.fitness() > bestCandidateSolution.fitness()) )
+	{
+	bestCandidateSolution = candidateSolution;	// 5.
+	bestCandidateMove = candidateMove;	// 5.
+	}
+	}
+	
+	if (bestCandidateSolution.fitness() > bestSolution.fitness())
+	{
+	bestSolution = bestCandidateSolution;	// 6.
+	}
+	currentSolution = bestCandidateSolution;	// 7.
+	tabuList.push(bestCandidateMove);	// 7.
+	if (tabuList.size() > MAX_TABU_LIST_SIZE)
+	{
+	tabuList.pop();		// 8.
+	}
+	}
+	return bestSolution;	// 9.
+	}
+	\end{lstlisting}
+	\begin{enumerate}
+		\item Wypełniamy puste pola planszy wejściowej losowymi liczbami, tak aby w każdym bloku 3x3 planszy znajdowawły się różne cyfry od 1 do 9. Jest to nasze obecne najlepsze rozwiązanie (oczywiście najprawdopodobniej nieprawidłowe).
+		\item Tworzymy pustą listę tabu, reprezentowaną jako kolejka FIFO.
+		\item Sprawdzamy warunek stopu. W naszym algorytmie funkcja stopCondition() zwróci wartość true wtedy i tylko wtedy, gdy liczba kolizji (czyli liczba powtarzających się cyfr w kolumnach i wierszach) będzie równa 0.
+		\item Zczytujemy do wektora sąsiędztwo aktualnego rozwiązania, reprezentowane jako lista par - możliwy ruch i utworzone przez ten ruch sudoku.
+		\item Dla każdego elementu z sąsiedztwa, sprawdzamy czy ruch zawiera znajduje się na liście tabu i czy jego fitness jest większy niż fitness najlepszego dotychczasowego kandydata. Funkcja fitness() zwraca tym większą wartość im mniej kolizji występuje. Jeśli tak, to nadpisujemy najlepszego dotychczasowego kandydata znalezionym rozwiązaniem.
+		\item Jeśli fitness naszego najlepszego kandydata w danej iteracji jest większy niż fitness najlepszego znalezionego rozwiązania od początku działania algorytmu, to nadpisujemy to najlepsze rozwiązanie.
+		\item Nadpisujemy obecne rozwiązanie najlepszym kandydatem i wrzucamy wykonany ruch na listę tabu.
+		\item Jeśli lista tabu jest już pełna to usuwamy ostatni jej element;
+		\item Zwracamy najlepsze dotychczasowe rozwiązanie. Kończymy algorytm.
+	\end{enumerate}
+\end{document}
