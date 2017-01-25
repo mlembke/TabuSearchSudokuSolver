@@ -16,8 +16,14 @@ Sudoku::~Sudoku()
 {
 }
 
-bool Sudoku::swap(unsigned int blockNo, unsigned int x, unsigned int y)
+bool Sudoku::swap(PossibleMove possibleMove)
 {
+	auto node1coords = getMapCoords(possibleMove.blockNo, possibleMove.node1idx);
+	auto node2coords = getMapCoords(possibleMove.blockNo, possibleMove.node2idx);
+	Node& node1 = map[node1coords.first][node1coords.second];
+	Node& node2 = map[node2coords.first][node2coords.second];
+	std::swap(node1.value, node2.value);
+
 	return false;
 }
 
@@ -119,4 +125,14 @@ std::ostream& operator<<(std::ostream& os, const Sudoku& sudoku)
 {
 	sudoku.print(os);
 	return os;
+}
+bool Sudoku::isMoveLegal(PossibleMove possibleMove)
+{
+	if (possibleMove.node1idx == possibleMove.node2idx) return false;
+	auto node1coords = getMapCoords(possibleMove.blockNo, possibleMove.node1idx);
+	auto node2coords = getMapCoords(possibleMove.blockNo, possibleMove.node2idx);
+	Node node1 = map[node1coords.first][node1coords.second];
+	Node node2 = map[node2coords.first][node2coords.second];
+	if (node1.isStartingNode() || node2.isStartingNode()) return false;
+	return true;
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "Node.h"
+#include "PossibleMove.h"
 
 #include <utility>
 #include <string>
@@ -35,14 +36,19 @@ public:
 	Sudoku();
 	~Sudoku();
 
-	bool swap(unsigned int blockNo, unsigned int x, unsigned int y);
+	bool swap(PossibleMove possibleMove);
 
 	std::pair<unsigned int, unsigned int> getMapCoords(unsigned int blockNo, unsigned int fieldNo);
 
 	std::vector<Node> getBlockNodes(unsigned int blockNo);
+
 	void fillHolesRandomly();
 
 	bool loadFromTxt(std::string fileName);
+
+	std::vector<std::pair<PossibleMove, Sudoku>> getNeighbourhood();
+
+	bool isMoveLegal(PossibleMove possibleMove);
 
 	void print(std::ostream& os) const;
 
