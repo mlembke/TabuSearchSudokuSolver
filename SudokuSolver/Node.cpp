@@ -12,3 +12,14 @@ Node::Node(unsigned int value, bool startingNode) : value(value), startingNode(t
 Node::~Node()
 {
 }
+
+void Node::print(std::ostream& os) const
+{
+	os << value;
+}
+
+std::ostream& operator<<(std::ostream &os, const Node& node)
+{
+	node.print(os);
+	return os;
+}

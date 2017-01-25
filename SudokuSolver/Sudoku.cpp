@@ -68,7 +68,7 @@ void Sudoku::fillHolesRandomly()
 		{
 			if (!node.isStartingNode())
 			{
-				node.setValue(valuesToInput[valuesToInput.size()-1]);
+				node.setValue(valuesToInput[valuesToInput.size() - 1]);
 				valuesToInput.pop_back();
 			}
 		}
@@ -79,14 +79,14 @@ bool Sudoku::loadFromTxt(std::string fileName)
 {
 	std::ifstream file(fileName);
 
-	if(file.is_open())
+	if (file.is_open())
 	{
 		std::string cell;
 		unsigned i = 0;
 		unsigned j = 0;
-		while(file >> cell)
+		while (file >> cell)
 		{
-			if(cell != ".")
+			if (cell != ".")
 			{
 				map[i][j] = Node(std::stoi(cell), true);
 			}
@@ -98,3 +98,20 @@ bool Sudoku::loadFromTxt(std::string fileName)
 	return true;
 }
 
+void Sudoku::print(std::ostream& os) const
+{
+	for (unsigned i = 0; i < nCols; ++i)
+	{
+		for (unsigned j = 0; j < nRows; ++j)
+		{
+			os << map[i][j] << " ";
+		}
+		os << "\n";
+	}
+}
+
+std::ostream& operator<<(std::ostream& os, const Sudoku& sudoku)
+{
+	sudoku.print(os);
+	return os;
+}

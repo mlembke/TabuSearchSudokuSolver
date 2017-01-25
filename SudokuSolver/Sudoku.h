@@ -28,5 +28,9 @@ public:
 
 	bool loadFromTxt(std::string fileName);
 
+	void print(std::ostream& os) const;
+
+	friend std::ostream& operator<<(std::ostream& os, const Sudoku& sudoku);
+
 };
 
