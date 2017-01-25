@@ -110,6 +110,11 @@ void Sudoku::print(std::ostream& os) const
 	}
 }
 
+Sudoku::Proxy Sudoku::operator[](int index)
+{
+	return Proxy(map[index]);
+}
+
 std::ostream& operator<<(std::ostream& os, const Sudoku& sudoku)
 {
 	sudoku.print(os);

@@ -5,8 +5,24 @@
 #include <string>
 #include <vector>
 
-class Sudoku		// Class representing the sudoku map
+class Sudoku // Class representing the sudoku map
 {
+	class Proxy
+	{
+	public:
+		explicit Proxy(Node* mapColumn) : mapColumn(mapColumn)
+		{
+		}
+
+		Node& operator[](int index) const
+		{
+			return mapColumn[index];
+		}
+
+	private:
+		Node* mapColumn;
+	};
+
 public:
 	static const unsigned BOXSIZE = 3;
 	static constexpr unsigned nCols = BOXSIZE * BOXSIZE;
@@ -30,7 +46,8 @@ public:
 
 	void print(std::ostream& os) const;
 
-	friend std::ostream& operator<<(std::ostream& os, const Sudoku& sudoku);
+	Proxy operator[](int index);
 
+	friend std::ostream& operator<<(std::ostream& os, const Sudoku& sudoku);
 };
 
