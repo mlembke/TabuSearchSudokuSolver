@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <string>
+#include <vector>
 
 class Sudoku		// Class representing the sudoku map
 {
