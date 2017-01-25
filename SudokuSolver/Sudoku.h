@@ -1,4 +1,6 @@
 #pragma once
+#include "Node.h"
+#include <utility>
 
 class Sudoku		// Class representing the sudoku map
 {
@@ -10,6 +12,7 @@ public:
 	~Sudoku();
 
 	bool swap(unsigned int blockNo, unsigned int x, unsigned int y);
+
 
 	void fillHolesRandomly();	
 
