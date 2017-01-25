@@ -1,6 +1,6 @@
 #include "Node.h"
 
-Node::Node() : startingNode(false)
+Node::Node() : value(0), startingNode(false)
 {
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "Sudoku.h"
 
 class TabuSearch
 {
