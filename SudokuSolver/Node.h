@@ -12,5 +12,9 @@ public:
 	Node();
 	Node(unsigned int value, bool startingNode);
 	~Node();
+
+	unsigned int getValue() { return value; }
+	void setValue(unsigned int newValue) { value = newValue; }
+	unsigned int isStartingNode() { return startingNode; }
 };
 

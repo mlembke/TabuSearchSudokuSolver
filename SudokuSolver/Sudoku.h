@@ -19,6 +19,9 @@ public:
 
 	bool swap(unsigned int blockNo, unsigned int x, unsigned int y);
 
+	std::pair<unsigned int, unsigned int> getMapCoords(unsigned int blockNo, unsigned int fieldNo);
+
+	std::vector<Node> getBlockNodes(unsigned int blockNo);
 	void fillHolesRandomly();
 
 	bool loadFromTxt(std::string fileName);

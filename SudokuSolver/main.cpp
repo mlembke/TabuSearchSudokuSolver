@@ -3,6 +3,7 @@
 
 #include "Sudoku.h"
 
+
 void loadSudokuFromTxtTest()
 {
 	const std::string fileName = "Data/sudoku.txt";
@@ -15,5 +16,5 @@ int main(int argc, char *argv[])
 {
 	loadSudokuFromTxtTest();
 
-	return 0;
+	return system("pause");
 }
