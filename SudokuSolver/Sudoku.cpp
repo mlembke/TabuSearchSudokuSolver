@@ -90,8 +90,8 @@ bool Sudoku::loadFromTxt(std::string fileName)
 			{
 				map[i][j] = Node(std::stoi(cell), true);
 			}
-			i = (i + 1) % nCols;
-			j = i == 0 ? j + 1 : j;
+			j = (j + 1) % nCols;
+			i = j == 0 ? i + 1 : i;
 		}
 	}
 

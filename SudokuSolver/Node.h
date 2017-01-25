@@ -3,7 +3,7 @@
 class Node		// Class representing a single field on the sudoku map
 {
 
-private:
+public:
 	unsigned int value;		// Field value(1-9)
 	bool startingNode;		// Is this field a starting field (so it can't be changed)
 

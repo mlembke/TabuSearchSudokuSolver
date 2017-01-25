@@ -7,11 +7,12 @@
 
 class Sudoku		// Class representing the sudoku map
 {
-private:
+public:
 	static const unsigned BOXSIZE = 3;
 	static constexpr unsigned nCols = BOXSIZE * BOXSIZE;
 	static constexpr unsigned nRows = BOXSIZE * BOXSIZE;
 
+private:
 	Node map[nCols][nRows];
 
 public:
