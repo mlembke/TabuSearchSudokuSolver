@@ -1,11 +1,17 @@
 #pragma once
 #include "Node.h"
+
 #include <utility>
+#include <string>
 
 class Sudoku		// Class representing the sudoku map
 {
 private:
-	Node map[9][9];
+	static const unsigned BOXSIZE = 3;
+	static constexpr unsigned nCols = BOXSIZE * BOXSIZE;
+	static constexpr unsigned nRows = BOXSIZE * BOXSIZE;
+
+	Node map[nCols][nRows];
 
 public:
 	Sudoku();
@@ -13,8 +19,9 @@ public:
 
 	bool swap(unsigned int blockNo, unsigned int x, unsigned int y);
 
+	void fillHolesRandomly();
 
-	void fillHolesRandomly();	
+	bool loadFromTxt(std::string fileName);
 
 };
 

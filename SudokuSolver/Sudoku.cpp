@@ -2,6 +2,9 @@
 
 #include <vector>
 
+#include <fstream>
+#include <iostream>
+
 Sudoku::Sudoku()
 {
 }
@@ -30,3 +33,27 @@ void Sudoku::fillHolesRandomly()
 
 	}
 }
+
+bool Sudoku::loadFromTxt(std::string fileName)
+{
+	std::ifstream file(fileName);
+
+	if(file.is_open())
+	{
+		std::string cell;
+		unsigned i = 0;
+		unsigned j = 0;
+		while(file >> cell)
+		{
+			if(cell != ".")
+			{
+				map[i][j] = Node(std::stoi(cell), true);
+			}
+			i = (i + 1) % nCols;
+			j = i == 0 ? j + 1 : j;
+		}
+	}
+
+	return true;
+}
+
