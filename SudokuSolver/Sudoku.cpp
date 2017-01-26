@@ -36,16 +36,16 @@ std::pair<unsigned int, unsigned int> Sudoku::getMapCoords(unsigned int blockNo,
 	return std::make_pair(blockX * 3 + fieldX, blockY * 3 + fieldY);
 }
 
-std::vector<Node> Sudoku::getBlockNodes(unsigned int blockNo)
+std::vector<Node*> Sudoku::getBlockNodes(unsigned int blockNo)
 {
-	std::vector<Node> blockNodes;
+	std::vector<Node*> blockNodes;
 	unsigned int mapX = (blockNo % 3) * 3;
 	unsigned int mapY = (blockNo / 3) * 3;
 	for (auto curMapX = mapX; curMapX < mapX + 3; ++curMapX)
 	{
 		for (auto curMapY = mapY; curMapY < mapY + 3; ++curMapY)
 		{
-			blockNodes.push_back(map[curMapX][curMapY]);
+			blockNodes.push_back(&map[curMapX][curMapY]);
 		}
 	}
 	return blockNodes;
@@ -58,23 +58,24 @@ void Sudoku::fillHolesRandomly()
 		std::vector<unsigned int> valuesToInput{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
 		// Deleting existing values from valuesToInput
-		std::vector<Node> blockNodes = getBlockNodes(blockNo);
-		for (Node node : blockNodes)
+		std::vector<Node*> blockNodes = getBlockNodes(blockNo);
+		for (auto& node : blockNodes)
 		{
-			if (node.isStartingNode())
+			if (node->isStartingNode())
 			{
-				valuesToInput.erase(std::remove(valuesToInput.begin(), valuesToInput.end(), node.getValue()), valuesToInput.end());
+				valuesToInput.erase(std::remove(valuesToInput.begin(), valuesToInput.end(), node->getValue()), valuesToInput.end());
 			}
 		}
 
 		// Fill non-starting nodes with the values;
 		auto randEngine = std::default_random_engine{};
 		std::shuffle(std::begin(valuesToInput), std::end(valuesToInput), randEngine);
-		for (Node node : blockNodes)
+		for (auto& node : blockNodes)
 		{
-			if (!node.isStartingNode())
+			if (!node->isStartingNode())
 			{
-				node.setValue(valuesToInput[valuesToInput.size() - 1]);
+				unsigned int valueToInput = valuesToInput[valuesToInput.size() - 1];
+				node->setValue(valueToInput);
 				valuesToInput.pop_back();
 			}
 		}

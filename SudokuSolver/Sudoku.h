@@ -40,7 +40,7 @@ public:
 
 	std::pair<unsigned int, unsigned int> getMapCoords(unsigned int blockNo, unsigned int fieldNo);
 
-	std::vector<Node> getBlockNodes(unsigned int blockNo);
+	std::vector<Node*> getBlockNodes(unsigned int blockNo);
 
 	void fillHolesRandomly();
 
