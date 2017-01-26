@@ -6,6 +6,8 @@
 
 #include <fstream>
 #include <iostream>
+#include <numeric>
+#include <unordered_map>
 
 Sudoku::Sudoku()
 {
@@ -142,6 +144,31 @@ void Sudoku::print(std::ostream& os) const
 Sudoku::Proxy Sudoku::operator[](int index)
 {
 	return Proxy(map[index]);
+}
+
+unsigned Sudoku::getNumberOfCollisions() const
+{
+	unsigned numberOfCollisions = 0;
+
+	for (int i = 0; i < nCols; ++i)
+	{
+		std::unordered_map<unsigned, bool> rowValues;
+		std::unordered_map<unsigned, bool> colValues;
+		for (int j = 0; j < nRows; ++j)
+		{
+			if (rowValues[map[i][j].value])
+				++numberOfCollisions;
+			else
+				rowValues[map[i][j].value] = true;
+
+			if (colValues[map[j][i].value])
+				++numberOfCollisions;
+			else
+				colValues[map[j][i].value] = true;
+		}
+	}
+
+	return numberOfCollisions;
 }
 
 std::ostream& operator<<(std::ostream& os, const Sudoku& sudoku)

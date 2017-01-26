@@ -54,6 +54,8 @@ public:
 
 	Proxy operator[](int index);
 
+	unsigned getNumberOfCollisions() const;
+
 	friend std::ostream& operator<<(std::ostream& os, const Sudoku& sudoku);
 };
 

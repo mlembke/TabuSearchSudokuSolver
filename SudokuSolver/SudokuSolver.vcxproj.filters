@@ -21,9 +21,6 @@
     <ClInclude Include="Sudoku.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PossibleMove.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TabuSearch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -38,11 +35,8 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PossibleMove.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TabuSearch.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

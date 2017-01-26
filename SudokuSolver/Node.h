@@ -18,6 +18,7 @@ public:
 
 	void print(std::ostream& os) const;
 
+	bool operator==(const Node& rhs) const;
 	friend std::ostream& operator<<(std::ostream& os, const Node& node);
 
 };

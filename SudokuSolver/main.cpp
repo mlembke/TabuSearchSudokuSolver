@@ -10,17 +10,9 @@ void loadSudokuFromTxtTest()
 	const std::string fileName = "Data/sudoku.txt";
 	Sudoku sudoku;
 	sudoku.loadFromTxt(fileName);
-	std::cout << sudoku << "\n\n";
-}
+	std::cout << sudoku << "\n";
+	std::cout << sudoku.getNumberOfCollisions() << "\n";
 
-void fillSudokuRandomlyTest()
-{
-	const std::string fileName = "Data/sudoku.txt";
-	Sudoku sudoku;
-	sudoku.loadFromTxt(fileName);
-	std::cout << sudoku << "\n\n";
-	sudoku.fillHolesRandomly();
-	std::cout << sudoku << "\n\n";
 }
 
 void getSudokuNeighbourhoodTest()
@@ -57,6 +49,7 @@ void singleSwapTest()
 int main(int argc, char *argv[])
 {
 	getSudokuNeighbourhoodTest();
+	loadSudokuFromTxtTest();
 
 	system("pause");
 	return 0;

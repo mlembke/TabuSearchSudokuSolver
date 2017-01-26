@@ -18,6 +18,11 @@ void Node::print(std::ostream& os) const
 	os << value;
 }
 
+bool Node::operator==(const Node& rhs) const
+{
+	return value == rhs.value;
+}
+
 std::ostream& operator<<(std::ostream &os, const Node& node)
 {
 	node.print(os);
