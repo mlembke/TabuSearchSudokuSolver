@@ -49,14 +49,13 @@ void singleSwapTest()
 
 void tabuSearchTest()
 {
-	TabuSearch tabuSearch(20, 500);
+	TabuSearch tabuSearch(10, 500);
 	const std::string fileName = "Data/sudoku.txt";
 	Sudoku sudoku;
 	sudoku.loadFromTxt(fileName);
 	std::cout << sudoku << "\n";
 	Sudoku resultSudoku = tabuSearch.sudokuSolver(sudoku);
-	std::cout << "Iterations: " << tabuSearch.iterationsCount << "\n";
-	std::cout << resultSudoku;
+	std::cout << "Solution found after " << tabuSearch.iterationsCount << " iterations.\n";
 }
 
 int main(int argc, char *argv[])
