@@ -8,6 +8,7 @@
 #include <iostream>
 #include <numeric>
 #include <unordered_map>
+#include <time.h>
 
 Sudoku::Sudoku()
 {
@@ -71,6 +72,7 @@ void Sudoku::fillHolesRandomly()
 
 		// Fill non-starting nodes with the values;
 		auto randEngine = std::default_random_engine{};
+		randEngine.seed(time(NULL));
 		std::shuffle(std::begin(valuesToInput), std::end(valuesToInput), randEngine);
 		for (auto& node : blockNodes)
 		{

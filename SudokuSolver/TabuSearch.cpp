@@ -17,10 +17,11 @@ Sudoku TabuSearch::sudokuSolver(const Sudoku& inputSudoku)
 	Sudoku currentSolution = inputSudoku;
 	currentSolution.fillHolesRandomly();
 	Sudoku bestSolution = currentSolution;
+	iterationsCount = 0;
 	
 	while(iterationsCount < maxIterations && bestSolution.getNumberOfCollisions() != 0)
 	{
-		std::cout << "Starting iter. " << iterationsCount << "\n";
+		/*std::cout << "Starting iter. " << iterationsCount << "\n";*/
 		Sudoku bestCandidateSolution;
 		PossibleMove bestCandidateMove;
 		auto currentSolutionNeighbourhood = currentSolution.getNeighbourhood();
@@ -46,10 +47,10 @@ Sudoku TabuSearch::sudokuSolver(const Sudoku& inputSudoku)
 		{
 			tabuList.pop_back();
 		}
-		std::cout << "Collisions: " << currentSolution.getNumberOfCollisions() << "\n";
+		/*std::cout << "Collisions: " << currentSolution.getNumberOfCollisions() << "\n";
 		std::cout << "Tabu list size: " << tabuList.size() << "\n";
 		std::cout << "Current solution: " << "\n";
-		std::cout << currentSolution << "\n";
+		std::cout << currentSolution << "\n";*/
 		++iterationsCount;
 	}
 

@@ -18,6 +18,6 @@ public:
 
 	Sudoku sudokuSolver(const Sudoku& inputSudoku);
 
-	bool TabuSearch::isMoveOnTabuList(const PossibleMove& move);
+	bool isMoveOnTabuList(const PossibleMove& move);
 };
 
