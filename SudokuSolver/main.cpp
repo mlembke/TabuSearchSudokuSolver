@@ -3,6 +3,7 @@
 
 #include "Sudoku.h"
 #include "PossibleMove.h"
+#include "TabuSearch.h"
 
 
 void loadSudokuFromTxtTest()
@@ -46,10 +47,21 @@ void singleSwapTest()
 	std::cout << sudoku << "\n\n";
 }
 
+void tabuSearchTest()
+{
+	TabuSearch tabuSearch(20, 500);
+	const std::string fileName = "Data/sudoku.txt";
+	Sudoku sudoku;
+	sudoku.loadFromTxt(fileName);
+	std::cout << sudoku << "\n";
+	Sudoku resultSudoku = tabuSearch.sudokuSolver(sudoku);
+	std::cout << "Iterations: " << tabuSearch.iterationsCount << "\n";
+	std::cout << resultSudoku;
+}
+
 int main(int argc, char *argv[])
 {
-	getSudokuNeighbourhoodTest();
-	loadSudokuFromTxtTest();
+	tabuSearchTest();
 
 	system("pause");
 	return 0;

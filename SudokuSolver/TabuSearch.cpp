@@ -1,8 +1,9 @@
 #include "TabuSearch.h"
 #include "Sudoku.h"
+#include <iostream>
 
 
-TabuSearch::TabuSearch(unsigned int tabuListSize) : maxTabuListSize(maxTabuListSize)
+TabuSearch::TabuSearch(unsigned int tabuListSize, unsigned int maxIterations) : maxTabuListSize(maxTabuListSize), maxIterations(maxIterations)
 {
 }
 
@@ -16,11 +17,10 @@ Sudoku TabuSearch::sudokuSolver(const Sudoku& inputSudoku)
 	Sudoku currentSolution = inputSudoku;
 	currentSolution.fillHolesRandomly();
 	Sudoku bestSolution = currentSolution;
-	int iter = 0;
-	int MAX_ITER_COUNT = 100;
 	
-	while(iter < MAX_ITER_COUNT || bestSolution.getNumberOfCollisions() == 0)
+	while(iterationsCount < maxIterations || bestSolution.getNumberOfCollisions() != 0)
 	{
+		std::cout << "Starting iter. " << iterationsCount << "\n";
 		Sudoku bestCandidateSolution;
 		PossibleMove bestCandidateMove;
 		auto currentSolutionNeighbourhood = currentSolution.getNeighbourhood();
@@ -46,6 +46,10 @@ Sudoku TabuSearch::sudokuSolver(const Sudoku& inputSudoku)
 		{
 			tabuList.pop_back();
 		}
+		std::cout << "Current solution (collisions): " << currentSolution.getNumberOfCollisions() << "\n";
+		std::cout << currentSolution;
+		std::cout << "Ending iter. " << iterationsCount << "\n";
+		++iterationsCount;
 	}
 
 	return bestSolution;

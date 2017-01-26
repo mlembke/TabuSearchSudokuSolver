@@ -7,10 +7,13 @@ class TabuSearch
 {
 private:
 	const unsigned int maxTabuListSize;
+	const unsigned int maxIterations;
 	std::list<PossibleMove> tabuList;
 
 public:
-	TabuSearch(unsigned int maxTabuListSize);
+	unsigned int iterationsCount = 0;
+	 
+	TabuSearch(unsigned int maxTabuListSize, unsigned int maxIterations);
 	~TabuSearch();
 
 	Sudoku sudokuSolver(const Sudoku& inputSudoku);
