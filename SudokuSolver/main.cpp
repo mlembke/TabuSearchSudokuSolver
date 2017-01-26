@@ -27,7 +27,7 @@ void getSudokuNeighbourhoodTest()
 	sudoku.fillHolesRandomly();
 	std::cout << sudoku << "\n\n";
 	auto sudokuNeighbourHood = sudoku.getNeighbourhood();
-	for(auto pair : sudokuNeighbourHood)
+	for (auto pair : sudokuNeighbourHood)
 	{
 		PossibleMove move = pair.first;
 		Sudoku neighbour = pair.second;
@@ -63,28 +63,24 @@ void tabuSearchTest()
 
 void multipleSudokusTabuSearchTest()
 {
-	std::vector<std::tuple<unsigned int, unsigned int, unsigned int>> results;
-	results.reserve(10 * 80 / 5 * 30);
-	for(unsigned int tabuListLength = 1; tabuListLength <= 10; ++tabuListLength)
-	for(unsigned int revealedFieldsCount = 20; revealedFieldsCount < 76; revealedFieldsCount += 5)
-	{
-		for(unsigned int sudokuNo = 0; sudokuNo < 30; ++sudokuNo)
-		{
-			TabuSearch tabuSearch(tabuListLength, 1500);
-			Sudoku sudoku;
-			std::ostringstream stringStream;
-			stringStream << "Data/sudoku_" << revealedFieldsCount << "_" << sudokuNo << ".txt";
-			sudoku.loadFromTxt(stringStream.str());
-			sudoku.fillHolesRandomly();
-			Sudoku resultSudoku = tabuSearch.sudokuSolver(sudoku);
-			results.push_back(std::make_tuple(tabuListLength, revealedFieldsCount, tabuSearch.iterationsCount));
-			std::cout << "Done: " << tabuListLength << "." << revealedFieldsCount << "." << sudokuNo << "\n";
-		}
-	}
 	std::ofstream resultOutputFile("Data/multiple_sudokus_test_result.txt");
-	for(auto result : results)
+	for (unsigned int tabuListLength = 10; tabuListLength > 0; --tabuListLength)
 	{
-		resultOutputFile << std::get<0>(result) << " " << std::get<1>(result) << " " << std::get<2>(result) << "\n";
+		for (unsigned int fixedFieldsCount = 20; fixedFieldsCount < 80; fixedFieldsCount += 5)
+		{
+			for (unsigned int sudokuNo = 0; sudokuNo < 30; ++sudokuNo)
+			{
+				TabuSearch tabuSearch(tabuListLength, 1500);
+				Sudoku sudoku;
+				std::ostringstream stringStream;
+				stringStream << "Data/sudoku_" << fixedFieldsCount << "_" << sudokuNo << ".txt";
+				sudoku.loadFromTxt(stringStream.str());
+				sudoku.fillHolesRandomly();
+				Sudoku resultSudoku = tabuSearch.sudokuSolver(sudoku);
+				resultOutputFile << tabuListLength << " " << fixedFieldsCount << " " << tabuSearch.iterationsCount << "\n";
+				std::cout << tabuListLength << " " << fixedFieldsCount << " " << sudokuNo << "\n";
+			}
+		}
 	}
 }
 
