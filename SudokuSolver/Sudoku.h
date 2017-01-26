@@ -35,7 +35,7 @@ private:
 public:
 	Sudoku();
 	~Sudoku();
-
+	
 	bool swap(PossibleMove possibleMove);
 
 	std::pair<unsigned int, unsigned int> getMapCoords(unsigned int blockNo, unsigned int fieldNo);
