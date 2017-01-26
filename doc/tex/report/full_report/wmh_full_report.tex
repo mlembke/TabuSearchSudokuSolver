@@ -10,7 +10,7 @@
 }
 \supervisor{dr inż. Piotr Bilski}
 \title{Algorytm przeszukiwania z tabu do rozwiązywania układanki Sudoku (PB5)}
-\subtitle{Sprawozdanie}
+\subtitle{Sprawozdanie końcowe}
 \course{Współczesne metody heurystyczne}
 \coursecode{WMH}
 \university{Politechnika Warszawska}
@@ -22,6 +22,16 @@
 	\maketitle
 	
 	\section{Wstęp}
+		W projekcie zaimplementowano algorytm rozwiązywania łamigłówek Sudoku z wykorzystaniem metaheurystyki tabu. Problem generowania plansz zdefiniowano jako problem spełniania ograniczeń (ang. \textit{constraint satisfaction problem}, CSP) a rozwiązanie (generowanie plansz) zaimplementowano w języku Python z wykorzystaniem biblioteki \texttt{python-constraint}.
+		
+		Rozwiązywanie plansz sudoku zaimplementowano w języku C++ z wykorzystaniem biblioteki standardowej.
 
+	\section{Analiza eksperymentalna programu}
+		\begin{figure}
+			\centering
+			\includegraphics[width=\textwidth]{iterations_fixed.pdf}
+			\caption{Wykres przedstawiający średnią liczbę iteracji w zależności od liczby początkowo uzupełnionych pól w łamigłówce}
+		\end{figure}
+		
 	\printbibliography
 \end{document}

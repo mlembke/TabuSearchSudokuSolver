@@ -4,6 +4,7 @@
 # Sean Davis, Matthew Henderson, Andrew Smith (Berea) 4.1.2010
 # https://conference.scipy.org/scipy2010/slides/matthew_henderson_sudoku.pdf
 
+import argparse
 import copy
 import itertools
 import operator
@@ -421,6 +422,28 @@ class Puzzle:
     def get_fixed(self):
         return self.fixed
 
+def main():
+    random.seed()
+    parser = argparse.ArgumentParser(
+        description="Generates Sudoku puzzle with given number of fixed digits and write it to output file")
+    parser.add_argument("-o", "--outfile", type=str, default="sudoku.txt", help="output file")
+    parser.add_argument("-f", "--fixed", type=int, default=20, help="number of fixed digits")
+    parser.add_argument("-b", "--boxsize", type=int, default=3, help="box size")
+    parser.add_argument("--generate", action="store_true")
+    args = parser.parse_args()
+
+    if (args.generate):
+        for fixed in range(20, 80, 5):
+            for i in range(30):
+                with open('Data/sudoku_{}_{}.txt'.format(fixed, i), 'w') as f:
+                    puzzle = random_puzzle(args.fixed, args.boxsize)
+                    f.write(_dict_to_string(puzzle.fixed, args.boxsize, 1, '\n'))
+    else:
+        with open(args.outfile, 'w') as f:
+            puzzle = random_puzzle(args.fixed, args.boxsize)
+            f.write(_dict_to_string(puzzle.fixed, args.boxsize, 1, '\n'))
+
 
 if __name__ == '__main__':
-    print('This file is a module and cannot be run independently!')
+    main()
+

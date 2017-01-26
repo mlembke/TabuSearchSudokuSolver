@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <sstream>
+#include <tuple>
 
 #include "Sudoku.h"
 #include "PossibleMove.h"
@@ -38,7 +39,7 @@ void getSudokuNeighbourhoodTest()
 
 void singleSwapTest()
 {
-	const std::string fileName = "Data/sudoku.txt";
+	const std::string fileName = "Data/sudoku_65_0.txt";
 	Sudoku sudoku;
 	sudoku.loadFromTxt(fileName);
 	sudoku.fillHolesRandomly();
@@ -62,25 +63,28 @@ void tabuSearchTest()
 
 void multipleSudokusTabuSearchTest()
 {
-	TabuSearch tabuSearch(10, 1000);
-	std::vector<std::pair<unsigned int, unsigned int>> results;
+	std::vector<std::tuple<unsigned int, unsigned int, unsigned int>> results;
+	results.reserve(10 * 80 / 5 * 30);
+	for(unsigned int tabuListLength = 1; tabuListLength <= 10; ++tabuListLength)
 	for(unsigned int revealedFieldsCount = 20; revealedFieldsCount < 76; revealedFieldsCount += 5)
 	{
-		for(unsigned int sudokuNo = 0; sudokuNo < 10; ++sudokuNo)
+		for(unsigned int sudokuNo = 0; sudokuNo < 30; ++sudokuNo)
 		{
+			TabuSearch tabuSearch(tabuListLength, 1500);
 			Sudoku sudoku;
 			std::ostringstream stringStream;
 			stringStream << "Data/sudoku_" << revealedFieldsCount << "_" << sudokuNo << ".txt";
 			sudoku.loadFromTxt(stringStream.str());
 			sudoku.fillHolesRandomly();
 			Sudoku resultSudoku = tabuSearch.sudokuSolver(sudoku);
-			results.push_back(std::make_pair(tabuSearch.iterationsCount, revealedFieldsCount));
+			results.push_back(std::make_tuple(tabuListLength, revealedFieldsCount, tabuSearch.iterationsCount));
+			std::cout << "Done: " << tabuListLength << "." << revealedFieldsCount << "." << sudokuNo << "\n";
 		}
 	}
 	std::ofstream resultOutputFile("Data/multiple_sudokus_test_result.txt");
 	for(auto result : results)
 	{
-		resultOutputFile << result.first << " " << result.second << "\n";
+		resultOutputFile << std::get<0>(result) << " " << std::get<1>(result) << " " << std::get<2>(result) << "\n";
 	}
 }
 
