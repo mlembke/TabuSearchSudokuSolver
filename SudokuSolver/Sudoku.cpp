@@ -95,7 +95,7 @@ bool Sudoku::loadFromTxt(std::string fileName)
 		{
 			if (cell != ".")
 			{
-				map[i][j] = Node(std::stoi(cell), true);
+				map[j][i] = Node(std::stoi(cell), true);
 			}
 			j = (j + 1) % nCols;
 			i = j == 0 ? i + 1 : i;
@@ -105,13 +105,35 @@ bool Sudoku::loadFromTxt(std::string fileName)
 	return true;
 }
 
+std::vector<std::pair<PossibleMove, Sudoku>> Sudoku::getNeighbourhood()
+{
+	std::vector<std::pair<PossibleMove, Sudoku>> neighbourhood;
+	for(unsigned int blockNo = 0; blockNo < 9; ++blockNo)
+	{
+		for(unsigned int node1idx = 0; node1idx < 9; ++node1idx)
+		{
+			for(unsigned int node2idx = node1idx + 1; node2idx < 9; ++node2idx)
+			{
+				PossibleMove possibleMove(blockNo, node1idx, node2idx);
+				if(isMoveLegal(possibleMove))
+				{
+					Sudoku neighbourSudoku = *this;
+					neighbourSudoku.swap(possibleMove);
+					neighbourhood.push_back(std::make_pair(possibleMove, neighbourSudoku));
+				}
+			}
+		}
+	}
+	return neighbourhood;
+}
+
 void Sudoku::print(std::ostream& os) const
 {
-	for (unsigned i = 0; i < nCols; ++i)
+	for (unsigned i = 0; i < nRows; ++i)
 	{
-		for (unsigned j = 0; j < nRows; ++j)
+		for (unsigned j = 0; j < nCols; ++j)
 		{
-			os << map[i][j] << " ";
+			os << map[j][i] << " ";
 		}
 		os << "\n";
 	}
